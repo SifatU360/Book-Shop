@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import app from "./app";
-import dotenv from "./config";
 import config from "./config";
 
 
