@@ -50,21 +50,25 @@ project/
 ├── tsconfig.json
 └── README.md
 
-## 🚀 Prerequisites
+---
+
+## 🚀 **Prerequisites**
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js** 
+- **Node.js** (v16+)
 - **npm** or **yarn**
-- **MongoDB** 
+- **MongoDB** (local or cloud-based instance)
 
-## 🛠️ Steps to Set Up Locally
+---
+
+## 🛠️ **Steps to Set Up Locally**
 
 ### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/SifatU360/Book-Shop.git
-
+cd Book-Shop
 ### 2. Install Dependencies
 
 ```bash
