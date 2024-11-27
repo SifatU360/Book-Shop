@@ -1,34 +1,37 @@
 import { Request, Response } from 'express';
 import { orderService } from './order.service';
-// import bookValidationSchema from '../product/product.validation';
+
 
 const addOrder = async (req: Request, res: Response) => {
   try {
     const playload = req.body;
-    // const { error, value } = bookValidationSchema.validate(product);
+    
     const result = await orderService.createOrder(playload);
-    // if (error) {
-    //   res.status(500).json({
-    //     success: false,
-    //     message: 'Something went wrong !',
-    //     error: error.details,
-    //   });
-    // }
-    res
-      .status(201)
+    
+      res.status(201)
       .json({
         message: 'Order created successfully',
         success: true,
         data: result,
       });
   } catch (error) {
-    res.status(400).json({ message: error.message, success: false });
+    res.status(400).json({ message: "Order created failed", success: false , error, stack: error.stack });
   }
 };
 
-const getOrders = async (_req: Request, res: Response) => {
+const getOrders = async (req: Request, res: Response) => {
   try {
     const result = await orderService.getOrders();
+    if (result.length === 0) {
+      return res
+        .status(404)
+        .json({
+          message: 'No orders found',
+          success: false,
+          data: result,
+        });
+    }
+
     res
       .status(200)
       .json({
@@ -43,7 +46,7 @@ const getOrders = async (_req: Request, res: Response) => {
   }
 };
 
-const getRevenue = async (_req: Request, res: Response) => {
+const getRevenue = async ( req: Request, res: Response) => {
   try {
     const totalRevenue = await orderService.calculateRevenue();
     res

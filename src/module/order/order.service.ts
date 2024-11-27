@@ -23,11 +23,12 @@ const createOrder = async (orderData: IOrder) => {
     ...orderData,
     totalPrice,
   });
-  return await order.save();
+  const result = await order.save();
+  return result;
 };
 
 const getOrders = async () => {
-  const result = await Order.find().populate('product');
+  const result = await Order.find();
   return result;
 };
 

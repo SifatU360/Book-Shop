@@ -56,9 +56,12 @@ const getAllBooks = async (req: Request, res: Response) => {
 const getSingleBook = async (req: Request, res: Response) => {
   try {
 
-    const productId = req.params;
+    const productId  = req.params.productId;
     const result = await productService.getSingleBook(productId);
-    
+    if (result.length === 0) {
+      throw new Error('No books found by your search ID');
+    }
+
     res.status(200).json({
       message: 'Book retrieved successfully',
       success: true,
@@ -66,14 +69,19 @@ const getSingleBook = async (req: Request, res: Response) => {
     
   
   } catch (error:unknown) {
-    res
-      .status(500)
-      .json({
-        message: 'Error retrieving book',
+    if (error.message === 'No books found by your search ID') {
+      res
+        .status(404)
+        .json({
+          message: 'No books found by your search ID',
+          success: false,
+        });
+    } else {
+      res.status(500).json({
+        message: 'No books found by your search ID',
         success: false,
-        error,
-        stack: error.stack,
       });
+    }
   }
 };
 

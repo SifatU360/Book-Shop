@@ -22,16 +22,16 @@ const getAllBooks = async(searchTerm?: string) => {
     : {};
     const result = await Book.find(filter);
     return result;
-  } catch (error: unknown) {
+  } catch (error) {
     throw new Error('Failed to retrieve books: ' + error.message);
   }
 }
 
 
 const getSingleBook = async (id: string) => {
-  console.log(id);
+  // console.log(id);
   const result = await Book.findById(id);
-  console.log(result)
+  // console.log(result)
   return result;
 };
 
