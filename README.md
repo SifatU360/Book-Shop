@@ -121,8 +121,6 @@ Calculate Revenue: GET /api/orders/revenue
 Endpoint: POST  /api/products
 
 Request Body:
-```
-```
 ```json
 {
   "title": "The Great Gatsby",
@@ -134,23 +132,17 @@ Request Body:
   "inStock": true
 }
 ```
-
----
-```
 2. Get All Books with Search
 
 Endpoint: GET /api/books?searchTerm=Fiction
-```
-```
-```
+
+
 3. Place an Order
 
 Endpoint: POST /api/orders
 
 Request Body:
 
-```
-```
 ```json
 {
   "email": "customer@example.com",
@@ -158,3 +150,4 @@ Request Body:
   "quantity": 2,
   "totalPrice": 30
 }
+```
