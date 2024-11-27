@@ -65,38 +65,39 @@ Before you begin, ensure you have the following installed:
 ## 🛠️ **Steps to Set Up Locally**
 
 ### 1. Clone the Repository
-
+```
 ```bash
 git clone https://github.com/SifatU360/Book-Shop.git
 cd Book-Shop
-### 2. Install Dependencies
 
+### 2. Install Dependencies
+```
 ```bash
 npm install
 
 ### 3. Set Up Environment Variables Create a .env file in the root directory and add the following:
-
+```
 ```env
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/bookstore
 
 ### 4. Build the Project Compile the TypeScript code to JavaScript:
-
+```
 ```bash
 npm run build
 
 ### 5. Run the server using the compiled files:
-
-bash
+```
+```bash
 npm start
 
 ### 5. Access the API Open your browser or API client (e.g., Postman) and navigate to:
-
+```
 ```bash
 http://localhost:5000/api
 
 ### API Endpoints
-
+```
 ```Books
 Create a Book: POST /api/products
 Get All Books: GET /api/products
@@ -104,7 +105,7 @@ Query: ?searchTerm={title|author|category}
 Get a Book by ID: GET /api/products/:productId
 Update a Book: PUT /api/products/:productId
 Delete a Book: DELETE /api/products/:productId
-
+```
 ```Orders
 Place an Order: POST /api/orders
 Calculate Revenue: GET /api/orders/revenue
@@ -115,7 +116,7 @@ Calculate Revenue: GET /api/orders/revenue
 1. Create a Book
 Endpoint: POST /api/books
 Request Body:
-
+```
 ```json
 {
   "title": "The Great Gatsby",
@@ -128,13 +129,16 @@ Request Body:
 }
 
 2. Get All Books with Search
+
+```
 Endpoint: GET /api/books?searchTerm=Fiction
 
 3. Place an Order
+```
 Endpoint: POST /api/orders
 
 Request Body:
-
+```
 ```json
 {
   "email": "customer@example.com",
