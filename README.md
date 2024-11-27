@@ -75,11 +75,11 @@ git clone https://github.com/SifatU360/Book-Shop.git
 npm install
 
 ```
-### 3. Set Up Environment Variables Create a .env file in the root directory and add the following:
-
+### 3. Set Up Environment Variables Create a .env file in the root directory and add the PORT and MONGO_URI:
+## Example
 ```env
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/bookstore
+MONGO_URI=mongodb+srv://
 ```
 ### 4. Build the Project Compile the TypeScript code to JavaScript:
 
@@ -100,7 +100,8 @@ http://localhost:5000/api
 
 ```
 ### API Endpoints
-
+```
+```
 ```Books
 Create a Book: POST /api/products
 Get All Books: GET /api/products
@@ -120,6 +121,7 @@ Calculate Revenue: GET /api/orders/revenue
 Endpoint: POST /api/books
 Request Body:
 ```
+```
 ```json
 {
   "title": "The Great Gatsby",
@@ -134,15 +136,17 @@ Request Body:
 2. Get All Books with Search
 
 ```
-```
-Endpoint: GET /api/books?searchTerm=Fiction
 
+
+Endpoint: GET /api/books?searchTerm=Fiction
+```
 ```
 3. Place an Order
 
 Endpoint: POST /api/orders
 
 Request Body:
+
 ```
 ```json
 {
