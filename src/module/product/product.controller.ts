@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { productService } from './product.service';
-import mongoose from 'mongoose';
 const createBook = async (req: Request, res: Response) => {
   try {
     const playload = req.body;
@@ -52,6 +51,7 @@ const getSingleBook = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const result = await productService.getSingleBook(id);
+
     if (result.length === 0) {
       throw new Error('No books found by your search ID');
     }
