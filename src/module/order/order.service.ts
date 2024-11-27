@@ -28,9 +28,10 @@ const createOrder = async (orderData: IOrder) => {
 };
 
 const getOrders = async () => {
-  const result = await Order.find();
+  const result = await Order.find().populate('product');
   return result;
 };
+
 
 const calculateRevenue = async () => {
   const result = await Order.aggregate([

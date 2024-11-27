@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { productService } from './product.service';
-
+import mongoose from 'mongoose';
 const createBook = async (req: Request, res: Response) => {
   try {
     const playload = req.body;
@@ -11,17 +11,14 @@ const createBook = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    res
-      .status(400)
-      .json({
-        message: 'Failed to add book',
-        success: false,
-        error,
-        stack: error.stack,
-      });
+    res.status(400).json({
+      message: 'Failed to add book',
+      success: false,
+      error,
+      stack: error.stack,
+    });
   }
 };
-
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -38,12 +35,10 @@ const getAllBooks = async (req: Request, res: Response) => {
     });
   } catch (error: unknown) {
     if (error.message === 'No books found by your search term') {
-      res
-        .status(404)
-        .json({
-          message: 'No books found by your search term',
-          success: false,
-        });
+      res.status(404).json({
+        message: 'No books found by your search term',
+        success: false,
+      });
     } else {
       res.status(500).json({
         message: 'Error retrieving books',
@@ -55,9 +50,8 @@ const getAllBooks = async (req: Request, res: Response) => {
 
 const getSingleBook = async (req: Request, res: Response) => {
   try {
-
-    const productId  = req.params.productId;
-    const result = await productService.getSingleBook(productId);
+    const id = req.params.id;
+    const result = await productService.getSingleBook(id);
     if (result.length === 0) {
       throw new Error('No books found by your search ID');
     }
@@ -65,23 +59,15 @@ const getSingleBook = async (req: Request, res: Response) => {
     res.status(200).json({
       message: 'Book retrieved successfully',
       success: true,
-      data: result})
-    
-  
-  } catch (error:unknown) {
-    if (error.message === 'No books found by your search ID') {
-      res
-        .status(404)
-        .json({
-          message: 'No books found by your search ID',
-          success: false,
-        });
-    } else {
-      res.status(500).json({
-        message: 'No books found by your search ID',
-        success: false,
-      });
-    }
+      data: result,
+    });
+  } catch (error: unknown) {
+    res.status(500).json({
+      message: 'No books found by your search ID',
+      success: false,
+      error,
+      stack: error.stack,
+    });
   }
 };
 
@@ -98,14 +84,12 @@ const updateBook = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: 'Error updating book',
-        success: false,
-        error,
-        stack: error.stack,
-      });
+    res.status(500).json({
+      message: 'Error updating book',
+      success: false,
+      error,
+      stack: error.stack,
+    });
   }
 };
 
@@ -116,14 +100,12 @@ const deleteBook = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: 'Book deleted successfully', success: true, data: {} });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: 'Error deleting book',
-        success: false,
-        error,
-        stack: error.stack,
-      });
+    res.status(500).json({
+      message: 'Error deleting book',
+      success: false,
+      error,
+      stack: error.stack,
+    });
   }
 };
 export const bookController = {

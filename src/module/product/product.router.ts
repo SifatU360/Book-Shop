@@ -5,7 +5,7 @@ const userRouter = Router();
 
 
 
-userRouter.get('/:productId', bookController.getSingleBook);
+userRouter.get('/:id', bookController.getSingleBook);
 userRouter.put('/:productId', bookController.updateBook);
 userRouter.delete('/:productId', bookController.deleteBook);
 userRouter.get('/', bookController.getAllBooks);

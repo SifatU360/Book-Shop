@@ -29,9 +29,7 @@ const getAllBooks = async(searchTerm?: string) => {
 
 
 const getSingleBook = async (id: string) => {
-  // console.log(id);
   const result = await Book.findById(id);
-  // console.log(result)
   return result;
 };
 
@@ -47,7 +45,6 @@ const deleteBook = async (id: string) => {
 };
 export const productService = {
   addBook,
-  // getBooks,
   getAllBooks,
   getSingleBook,
   updateBook,
