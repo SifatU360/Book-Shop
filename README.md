@@ -101,7 +101,6 @@ http://localhost:5000/api
 ```
 ### API Endpoints
 ```
-```
 ```Books
 Create a Book: POST /api/products
 Get All Books: GET /api/products
@@ -118,9 +117,8 @@ Calculate Revenue: GET /api/orders/revenue
 ## Example Requests
 
 1. Create a Book
-Endpoint: POST /api/books
+Endpoint: POST  /api/products
 Request Body:
-```
 ```
 ```json
 {
@@ -134,9 +132,6 @@ Request Body:
 }
 ```
 2. Get All Books with Search
-
-```
-
 
 Endpoint: GET /api/books?searchTerm=Fiction
 ```
