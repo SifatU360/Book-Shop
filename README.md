@@ -100,7 +100,6 @@ http://localhost:5000/api
 
 ```
 ### API Endpoints
-```
 ```Books
 Create a Book: POST /api/products
 Get All Books: GET /api/products
