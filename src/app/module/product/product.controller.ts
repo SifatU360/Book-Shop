@@ -1,118 +1,89 @@
-import { Request, Response } from 'express';
 import { productService } from './product.service';
-const createBook = async (req: Request, res: Response) => {
-  try {
-    const playload = req.body;
-    const result = await productService.addBook(playload);
-    res.status(201).json({
-      message: 'Book created successfully',
-      success: true,
-      data: result,
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: 'Failed to add book',
-      success: false,
-      error,
-      stack: error.stack,
-    });
-  }
-};
+import catchAsync from '../../utils/catchAsync';
+import httpStatus from 'http-status';
+import sendResponse from '../../utils/sendResponse';
 
-const getAllBooks = async (req: Request, res: Response) => {
-  try {
-    const { searchTerm } = req.query;
-    const result = await productService.getAllBooks(searchTerm as string);
-    if (result.length === 0) {
-      throw new Error('No books found by your search term');
-    }
 
-    res.status(200).json({
-      message: 'Books retrieved successfully',
-      success: true,
-      data: result,
-    });
-  } catch (error: unknown) {
-    if (error.message === 'No books found by your search term') {
-      res.status(404).json({
-        message: 'No books found by your search term',
-        success: false,
-      });
-    } else {
-      res.status(500).json({
-        message: 'Error retrieving books',
-        success: false,
-      });
-    }
-  }
-};
+const createBook =  catchAsync(async (req, res) => {
+  const result = await productService.addBook(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book created successfully',
+    data: result,
+  });
+});
 
-const getSingleBook = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const result = await productService.getSingleBook(id);
+const getAllBooks = catchAsync(async (req, res) => {
+  const queries = req.query;
+  // console.log(queries);
+  const result = await productService.getAllBooks(queries);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book retrieved successfully',
+    data: result,
+  });
+});
 
-    if (result.length === 0) {
-      throw new Error('No books found by your search ID');
-    }
+const getSingleBook = catchAsync(async (req, res) => {
+  const result = await productService.getSingleBook(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book retrieved successfully',
+    data: result,
+  });
+});
 
-    res.status(200).json({
-      message: 'Book retrieved successfully',
-      success: true,
-      data: result,
-    });
-  } catch (error: unknown) {
-    res.status(500).json({
-      message: 'No books found by your search ID',
-      success: false,
-      error,
-      stack: error.stack,
-    });
-  }
-};
+const updateBook =  catchAsync(async (req, res) => {
+  const result = await productService.updateBook(req.params.id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book Updated successfully',
+    data: result,
+  });
+});
 
-const updateBook = async (req: Request, res: Response) => {
-  try {
-    const result = await productService.updateBook(
-      req.params.productId,
-      req.body,
-    );
+const numberOfCategory = catchAsync(async (req, res) => {
+  const result = await productService.NumberOfCategory();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book retrieved successfully',
+    data: result,
+  });
+});
 
-    res.status(200).json({
-      message: 'Book updated successfully',
-      success: true,
-      data: result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Error updating book',
-      success: false,
-      error,
-      stack: error.stack,
-    });
-  }
-};
 
-const deleteBook = async (req: Request, res: Response) => {
-  try {
-    await productService.deleteBook(req.params.productId);
-    res
-      .status(200)
-      .json({ message: 'Book deleted successfully', success: true, data: {} });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Error deleting book',
-      success: false,
-      error,
-      stack: error.stack,
-    });
-  }
-};
+const deleteBook = catchAsync(async (req, res) => {
+  const result = await productService.deleteBook(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book Deleted successfully',
+    data: result,
+  });
+});
+
+
+const getAuthors = catchAsync(async (req, res) => {
+  const result = await productService.GetAuthors();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book retrieved successfully',
+    data: result,
+  });
+});
+
 export const bookController = {
   createBook,
-  // getBooks,
   getAllBooks,
   getSingleBook,
   updateBook,
+  numberOfCategory,
   deleteBook,
+  getAuthors,
 };

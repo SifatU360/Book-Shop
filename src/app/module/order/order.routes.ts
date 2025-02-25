@@ -1,10 +1,18 @@
-import express from 'express';
+import { Router } from 'express';
+import authGurd from '../../middlewares/authGurd';
 import { orderController } from './order.controller';
-
-const router = express.Router();
-
-router.get('/revenue', orderController.getRevenue);
-router.get('/', orderController.getOrders);
-router.post('/', orderController.addOrder);
-
-export default router;
+const route = Router();
+route.patch('/verify-order', authGurd('admin'), orderController.verifyPayment);
+route.post(
+  '/create-order',
+  authGurd('user', 'admin'),
+  orderController.createOrder,
+);
+route.patch(
+  '/change-order-status/:id',
+  authGurd('admin'),
+  orderController.changeOrderStatus,
+);
+route.get('/get-orders', authGurd('admin'), orderController.getOrders);
+route.get('/get-customer-orders', authGurd('user'), orderController.getCustomerOrder);
+export const OrderRoutes = route;

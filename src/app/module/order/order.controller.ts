@@ -1,80 +1,75 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
 import { orderService } from './order.service';
+import { IUser } from '../user/user.interface';
 
-const addOrder = async (req: Request, res: Response) => {
-  try {
-    const playload = req.body;
+const createOrder = catchAsync(async (req, res) => {
+  const user = req.user;
 
-    const result = await orderService.createOrder(playload);
+  const order = await orderService.createOrder(
+    user as IUser,
+    req.body,
+    req.ip!,
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Order placed successfully',
+    data: order,
+  });
+});
 
-    res.status(201).json({
-      message: 'Order created successfully',
-      success: true,
-      data: result,
-    });
-  } catch (error: any) {
-    res
-      .status(400)
-      .json({
-        message: 'Order created failed',
-        success: false,
-        error,
-        stack: error.stack,
-      });
-  }
-};
+const getOrders = catchAsync(async (req, res) => {
+  const order = await orderService.getOrders();
 
-const getOrders = async (req: Request, res: Response) => {
-  try {
-    const result = await orderService.getOrders();
-    if (result.length === 0) {
-      return res.status(404).json({
-        message: 'No orders found',
-        success: false,
-        data: result,
-      });
-    }
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Order retrieved successfully',
+    data: order,
+  });
+});
 
-    res.status(200).json({
-      message: 'Orders retrieved successfully',
-      success: true,
-      data: result,
-    });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({
-        message: 'Error retrieving orders',
-        success: false,
-        error,
-        stack: error.stack,
-      });
-  }
-};
+const verifyPayment = catchAsync(async (req, res) => {
+  const order = await orderService.verifyPayment(req.query.order_id as string);
 
-const getRevenue = async (req: Request, res: Response) => {
-  try {
-    const totalRevenue = await orderService.calculateRevenue();
-    res.status(200).json({
-      message: 'Revenue calculated successfully',
-      success: true,
-      data: { totalRevenue },
-    });
-  } catch (error: any) {
-    res
-      .status(500)
-      .json({
-        message: 'Error calculating revenue',
-        success: false,
-        error,
-        stack: error.stack,
-      });
-  }
-};
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Order verified successfully',
+    data: order,
+  });
+});
 
+const changeOrderStatus = catchAsync(async (req, res) => {
+  const order = await orderService.changeOrderStatus(
+    req.params.id,
+    req.query.status as string,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Order status changed successfully',
+    data: order,
+  });
+});
+
+const getCustomerOrder = catchAsync(async (req, res) => {
+  const { email } = req.user;
+  const order = await orderService.getCustomerOrdersFromDb(email);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Order retrieved successfully',
+    data: order,
+  });
+});
 export const orderController = {
-  addOrder,
+  createOrder,
+  verifyPayment,
   getOrders,
-  getRevenue,
+  changeOrderStatus,
+  getCustomerOrder,
 };

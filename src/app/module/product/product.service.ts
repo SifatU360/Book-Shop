@@ -1,46 +1,64 @@
-import { IProduct } from './product.interface';
+
+import QueryBuilder from '../../builder/QueryBuilder';
+import { IBook } from './product.interface';
 import Book from './product.model';
 
 
-const addBook = async (product: IProduct): Promise<IProduct> => {
+const addBook = async (product: IBook): Promise<IBook> => {
   const result = await Book.create(product);
   return result;
 };
 
 
 
-const getAllBooks = async(searchTerm?: string) => {
-  try {
-    const filter = searchTerm
-    ? {
-      $or: [
-        { title: { $regex: searchTerm, $options: 'i' } },
-        { author: { $regex: searchTerm, $options: 'i' } },
-        { category: { $regex: searchTerm, $options: 'i' } },
-      ],
-    }
-    : {};
-    const result = await Book.find(filter);
-    return result;
-  } catch (error) {
-    throw new Error('Failed to retrieve books: ' + error.message);
-  }
-}
 
+const getAllBooks = async (query: Record<string, unknown>) => {
+  const AllBookQuery = new QueryBuilder(Book.find(), query)
+    .search(['author', 'category', 'title'])
+    .filter()
+    .limit();
+
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  const documentCount = await AllBookQuery.countTotal();
+  const result = await AllBookQuery.modelQuery;
+  return result;
+};
 
 const getSingleBook = async (id: string) => {
   const result = await Book.findById(id);
   return result;
 };
 
-const updateBook = async (id: string, updateData: IProduct) => {
-  const result = await Book.findByIdAndUpdate(id, updateData, { new: true });
-
+const updateBook = async (_id: string, payload: Partial<IBook>) => {
+  const result = await Book.findByIdAndUpdate(_id, payload, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 
-const deleteBook = async (id: string) => {
-  const result = await Book.findByIdAndDelete(id);
+const NumberOfCategory = async () => {
+  const result = await Book.aggregate([
+    { $group: { _id: '$category', count: { $sum: 1 } } },
+  ]);
+  return result;
+};
+
+const deleteBook = async (_id: string) => {
+  const result = await Book.findByIdAndUpdate(
+    _id,
+    { isDeleted: true },
+    { new: true, runValidators: true },
+  );
+  // console.log('book Deleted', result);
+  return result;
+};
+
+const GetAuthors = async () => {
+  const result = await Book.aggregate([
+    { $group: { _id: '$author', count: { $sum: 1 } } },
+  ]);
   return result;
 };
 export const productService = {
@@ -48,5 +66,7 @@ export const productService = {
   getAllBooks,
   getSingleBook,
   updateBook,
+  NumberOfCategory,
   deleteBook,
+  GetAuthors,
 };

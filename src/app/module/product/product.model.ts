@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { IProduct } from './product.interface';
+import { IBook } from './product.interface';
 
 
-const bookSchema = new Schema <IProduct>(
+const bookSchema = new Schema <IBook>(
   {
     title: { type: String, required: true },
     author: { type: String, required: true },
@@ -19,6 +19,6 @@ const bookSchema = new Schema <IProduct>(
   { timestamps: true },
 );
 
-const Book = model<IProduct>('Book', bookSchema);
+const Book = model<IBook>('Book', bookSchema);
 
 export default Book;
