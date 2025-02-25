@@ -1,7 +1,7 @@
 import express, {  Request, Response } from 'express'
 
-import userRouter from './module/product/product.router';
-import orderRouter from './module/order/order.routes'
+import userRouter from './app/module/product/product.router';
+import orderRouter from './app/module/order/order.routes'
 const app = express();
 
 app.use(express.json());

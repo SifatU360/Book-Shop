@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { orderService } from './order.service';
 
@@ -12,7 +13,7 @@ const addOrder = async (req: Request, res: Response) => {
       success: true,
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(400)
       .json({
@@ -40,7 +41,7 @@ const getOrders = async (req: Request, res: Response) => {
       success: true,
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
       .json({
@@ -60,7 +61,7 @@ const getRevenue = async (req: Request, res: Response) => {
       success: true,
       data: { totalRevenue },
     });
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
       .json({
